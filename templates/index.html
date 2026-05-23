@@ -5,6 +5,86 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-<h1>Dashboard AgroControl ERP</h1>
-<p>Sistema de Gestão Operacional Agroindustrial</p>
+
+<section class="dashboard-header">
+
+    <div>
+        <h1>Dashboard</h1>
+        <p>
+            Bem-vindo ao AgroControl ERP
+        </p>
+    </div>
+
+    <button class="btn-primary">
+        + Novo Relatório
+    </button>
+
+</section>
+
+
+<section class="cards">
+
+    <div class="card">
+        <span class="card-icon">🌾</span>
+        <h3>Produção Total</h3>
+        <p>1.250 sacas</p>
+    </div>
+
+    <div class="card">
+        <span class="card-icon">💰</span>
+        <h3>Custo Operacional</h3>
+        <p>R$ 85.400</p>
+    </div>
+
+    <div class="card">
+        <span class="card-icon">🚜</span>
+        <h3>Talhões Ativos</h3>
+        <p>12</p>
+    </div>
+
+    <div class="card">
+        <span class="card-icon">📈</span>
+        <h3>Eficiência</h3>
+        <p>89%</p>
+    </div>
+
+</section>
+
+
+<section class="dashboard-grid">
+
+    <div class="panel">
+
+        <h2>📊 Produção da Semana</h2>
+
+        <div class="fake-chart">
+
+            <div class="bar" style="height: 70%;"></div>
+            <div class="bar" style="height: 45%;"></div>
+            <div class="bar" style="height: 90%;"></div>
+            <div class="bar" style="height: 60%;"></div>
+            <div class="bar" style="height: 80%;"></div>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>📝 Atividades Recentes</h2>
+
+        <ul class="activity-list">
+            <li>Talhão Norte atualizado</li>
+            <li>Financiamento calculado</li>
+            <li>Sensor convertido</li>
+            <li>Blend de fertilizante gerado</li>
+        </ul>
+
+    </div>
+
+</section>
+
+
+
+
 {% endblock %}
