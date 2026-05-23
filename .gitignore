@@ -1,0 +1,31 @@
+# Ambiente virtual Python
+venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Arquivos do VS Code
+.vscode/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Arquivos temporários
+temp/
+tmp/
+
+# Variáveis de ambiente
+.env
+
+# Arquivos de build Python
+build/
+dist/
+*.egg-info/
+
+# Matplotlib cache
+.matplotlib/
