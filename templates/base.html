@@ -23,17 +23,64 @@
         <h2>🌱 AgroControl</h2>
 
         <nav>
-            <a href="/">Dashboard</a>
-            <a href="/custos">Custos</a>
-            <a href="/financiamento">Financiamento</a>
-            <a href="/conversor">Conversor</a>
-            <a href="/talhoes">Talhões</a>
-            <a href="/fertilizantes">Fertilizantes</a>
+
+            <a href="/" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="/custos">
+                💰 Custos
+            </a>
+
+            <a href="/financiamento">
+                🏦 Financiamento
+            </a>
+
+            <a href="/conversor">
+                💻 Conversor
+            </a>
+
+            <a href="/talhoes">
+                🚜 Talhões
+            </a>
+
+            <a href="/fertilizantes">
+                🌱 Fertilizantes
+            </a>
+
         </nav>
     </aside>
 
     <main class="content">
+        <header class="topbar">
 
+        <div class="search-box">
+            <input
+                type="text"
+                placeholder="Pesquisar módulo..."
+            >
+        </div>
+
+        <div class="topbar-right">
+
+            <span class="notification">
+                🔔
+            </span>
+
+            <div class="user-profile">
+                <div class="avatar">
+                    LK
+                </div>
+
+                <div>
+                    <strong>Leandro</strong>
+                    <p>Administrador</p>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
         {% block content %}
         {% endblock %}
 
