@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__) #criando aplicação Flask
 
@@ -8,9 +8,38 @@ def home():
     return render_template("index.html")
 
 #página de custos
-@app.route("/custos")
+@app.route('/custos', methods=['GET', 'POST'])
 def custos():
-    return render_template("custo.html")
+
+    if request.method == 'POST':
+        try:
+            cf_input = request.form.get("custo_fixo")
+            cv_input = request.form.get("custo_variavel")
+            qd_input = request.form.get("quantidade")
+
+            cf = float(cf_input)
+            cv = float(cv_input)
+            qd = float(qd_input)
+
+
+            resultado = cf + (cv * qd)
+
+            return render_template(
+                'custos.html',
+                resultado=resultado
+            )
+
+        except ValueError:
+            return render_template(
+                'custos.html',
+                erro='Preencha todos os campos corretamente.',
+                    custo_fixo=cf_input,
+                    custo_variavel=cv_input,
+                    quantidade=qd_input
+                
+            )
+
+    return render_template('custos.html')
 
 #página financiamento
 @app.route("/financiamento")
@@ -33,6 +62,8 @@ def talhoes():
 @app.route("/fertilizantes")
 def fertilizantes():
     return render_template("fertilizante.html")
+
+
 
 
 # Executa o servidor

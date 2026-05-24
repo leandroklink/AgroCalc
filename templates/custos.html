@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+    Custos
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Custos de Produção</h1>
+
+<form action="/custos" method="POST">
+    <label>Custo fixo: </label>
+    <input type="number" name="custo_fixo" required value='{{custo_fixo}}'>
+
+    <label>Custo Variável: </label>
+    <input type="number" name="custo_variavel" required value='{{custo_variavel}}'>
+
+    <label>Quantidade: </label>
+    <input type="number" name="quantidade" required value='{{quantidade}}'>
+
+    <button type='submit'>
+        Calcular
+    </button>
+</form>      
+
+{% if erro %}
+<p>
+    {{ erro }}
+</p>
+{% endif %}
+
+
+{% if resultado is not none%}
+
+<p>
+    Resultado:
+    R$ {{ resultado }}
+</p>
+
+{% else %}
+
+<p>
+    Preencha os dados para calcular
+</p>
+
+{% endif %}
+
+<a href="/">Voltar</a>
+
+{% endblock %}
