@@ -45,6 +45,36 @@
 
 {% endif %}
 
+<p>
+    Outros Calculos:
+</p>
+<hr>
+
+{% for calculo in busca %}
+
+<div>
+    <p>Custo fixo: R$ {{ calculo[0] }}</p>
+    <p>Custo variável: R$ {{ calculo[1] }}</p>
+    <p>Quantidade: {{ calculo[2] }}</p>
+    <p>Resultado: R$ {{ calculo[3] }}</p>
+    <p>Data: {{ calculo[4] }}</p>
+</div>
+
+
+<form method="POST" action="/deletar-calculo">
+
+<input type="hidden"
+    name="id"
+    value="{{ calculo[5] }}">
+
+<button type="submit">
+    Excluir
+</button>
+</form>
+<hr>
+{% endfor %}
+
+
 <a href="/">Voltar</a>
 
 {% endblock %}

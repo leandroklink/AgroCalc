@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 def conectar():
     conexao = sqlite3.connect('banco.db')
@@ -52,13 +53,49 @@ def buscar_calculos():
     cursor = conexao.cursor()
 
     cursor.execute("""
-                SELECT 
-                    custo_fixo,
-                    custo_variavel,
-                    quantidade,
-                    resultado
-                FROM calculos
-""")
+        SELECT
+            custo_fixo,
+            custo_variavel,
+            quantidade,
+            resultado,
+            data_calculo,
+            id
+        FROM calculos
+        ORDER BY id DESC
+        LIMIT 20
+    """)
+
     busca = cursor.fetchall()
+
+    calculos_formatados = []
+
+    for calculo in busca:
+        data_formatada = datetime.strptime(
+            calculo[4],
+            '%Y-%m-%d %H:%M:%S'
+        ).strftime('%d/%m/%Y às %H:%M')
+
+        calculos_formatados.append((
+            calculo[0],
+            calculo[1],
+            calculo[2],
+            calculo[3],
+            data_formatada,
+            calculo[5]
+        ))
+
     conexao.close()
-    return busca
+
+    return calculos_formatados
+
+def deletar_calculo(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        DELETE FROM calculos
+        WHERE id = ?
+    """, (id,))
+
+    conexao.commit()
+    conexao.close()

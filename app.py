@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import database
 
 app = Flask(__name__) #criando aplicação Flask
@@ -51,6 +51,13 @@ def custos():
         busca=busca
     ) 
 
+#deletar calculo da tela de custos
+@app.route('/deletar-calculo', methods=['POST'])
+def deletar_calculo():
+
+    id = int(request.form.get('id'))
+    database.deletar_calculo(id)
+    return redirect(url_for('custos'))
 
 #página financiamento
 @app.route("/financiamento")
