@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
+import database
 
 app = Flask(__name__) #criando aplicação Flask
+database.criar_banco()
 
 #Rota principal (Dashboard)
 @app.route("/")
@@ -21,9 +23,8 @@ def custos():
             cv = float(cv_input)
             qd = float(qd_input)
 
-
             resultado = cf + (cv * qd)
-
+            database.salvar_calculo(cf, cv, qd, resultado)
             return render_template(
                 'custos.html',
                 resultado=resultado
@@ -39,7 +40,7 @@ def custos():
                 
             )
 
-    return render_template('custos.html')
+    return render_template('custos.html')   
 
 #página financiamento
 @app.route("/financiamento")
@@ -62,8 +63,6 @@ def talhoes():
 @app.route("/fertilizantes")
 def fertilizantes():
     return render_template("fertilizante.html")
-
-
 
 
 # Executa o servidor
