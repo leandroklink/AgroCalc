@@ -9,9 +9,11 @@ database.criar_banco()
 def home():
     return render_template("index.html")
 
-#página de custos
+# página de custos
 @app.route('/custos', methods=['GET', 'POST'])
 def custos():
+
+    resultado = None
 
     if request.method == 'POST':
         try:
@@ -24,23 +26,31 @@ def custos():
             qd = float(qd_input)
 
             resultado = cf + (cv * qd)
-            database.salvar_calculo(cf, cv, qd, resultado)
-            return render_template(
-                'custos.html',
-                resultado=resultado
+
+            database.salvar_calculo(
+                cf,
+                cv,
+                qd,
+                resultado
             )
 
         except ValueError:
             return render_template(
                 'custos.html',
                 erro='Preencha todos os campos corretamente.',
-                    custo_fixo=cf_input,
-                    custo_variavel=cv_input,
-                    quantidade=qd_input
-                
+                custo_fixo=cf_input,
+                custo_variavel=cv_input,
+                quantidade=qd_input
             )
 
-    return render_template('custos.html')   
+    busca = database.buscar_calculos()
+
+    return render_template(
+        'custos.html',
+        resultado=resultado,
+        busca=busca
+    ) 
+
 
 #página financiamento
 @app.route("/financiamento")

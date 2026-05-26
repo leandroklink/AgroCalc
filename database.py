@@ -46,3 +46,19 @@ def salvar_calculo(custo_fixo, custo_variavel, quantidade, resultado):
 
     conexao.commit()
     conexao.close()
+
+def buscar_calculos():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+                SELECT 
+                    custo_fixo,
+                    custo_variavel,
+                    quantidade,
+                    resultado
+                FROM calculos
+""")
+    busca = cursor.fetchall()
+    conexao.close()
+    return busca
