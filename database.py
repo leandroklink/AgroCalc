@@ -88,6 +88,21 @@ def buscar_calculos():
 
     return calculos_formatados
 
+
+def buscar_calculo_por_id(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT * FROM calculos
+        WHERE id = ?
+    """, (id,))
+    busca = cursor.fetchone()
+
+    conexao.close()
+    return busca
+
+
 def deletar_calculo(id):
     conexao = conectar()
     cursor = conexao.cursor()
@@ -96,6 +111,19 @@ def deletar_calculo(id):
         DELETE FROM calculos
         WHERE id = ?
     """, (id,))
+
+    conexao.commit()
+    conexao.close()
+
+
+
+def editar_calculo(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+
+""")
 
     conexao.commit()
     conexao.close()

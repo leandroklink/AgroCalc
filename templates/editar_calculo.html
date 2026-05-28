@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Editar Cálculo
+{% endblock %}
+
+{% block content %}
+
+<h1>Editar Cálculo</h1>
+
+<form action="/salvar-edicao" method="POST">
+
+    <input type="hidden" name="id" value="{{ calculo[0] }}">
+
+    <label>Custo fixo:</label>
+    <input type="number" name="custo_fixo" required value="{{ calculo[1] }}">
+
+    <label>Custo Variável:</label>
+    <input type="number" name="custo_variavel" required value="{{ calculo[2] }}">
+
+    <label>Quantidade:</label>
+    <input type="number" name="quantidade" required value="{{ calculo[3] }}"
+    >
+
+    <button type="submit">
+        Salvar alterações
+    </button>
+
+</form>
+
+<a href="/custos">Voltar</a>
+
+{% endblock %}

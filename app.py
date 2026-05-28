@@ -54,10 +54,44 @@ def custos():
 #deletar calculo da tela de custos
 @app.route('/deletar-calculo', methods=['POST'])
 def deletar_calculo():
-
     id = int(request.form.get('id'))
     database.deletar_calculo(id)
     return redirect(url_for('custos'))
+
+
+
+
+#alterar calculo tela de custos
+@app.route('/editar-calculo/<int:id>')
+def editar_calculo(id):
+    calculo = database.buscar_calculo_por_id(id)
+    return render_template(
+        'editar_calculo.html',
+        calculo=calculo
+    )
+
+#finalizar edição
+@app.route('/salvar-edicao', methods=['POST'])
+def salvar_edicao():
+
+    id = int(request.form.get('id'))
+
+    cf = float(request.form.get('custo_fixo'))
+    cv = float(request.form.get('custo_variavel'))
+    qd = float(request.form.get('quantidade'))
+
+    resultado = cf + (cv * qd)
+
+    database.atualizar_calculo(
+        id,
+        cf,
+        cv,
+        qd,
+        resultado
+    )
+
+    return redirect(url_for('custos'))
+
 
 #página financiamento
 @app.route("/financiamento")
