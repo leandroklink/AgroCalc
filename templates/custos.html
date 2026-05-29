@@ -19,6 +19,7 @@
                 type="number"
                 name="custo_fixo"
                 required
+                step="0.01"
                 value="{{ custo_fixo }}"
             >
 
@@ -27,6 +28,7 @@
                 type="number"
                 name="custo_variavel"
                 required
+                step="0.01"
                 value="{{ custo_variavel }}"
             >
 
@@ -35,6 +37,7 @@
                 type="number"
                 name="quantidade"
                 required
+                step="0.01"
                 value="{{ quantidade }}"
             >
 
@@ -56,14 +59,22 @@
         <div class="resultado">
             Resultado: <strong>R$ {{ resultado }}</strong>
         </div>
-    {% else %}
-        <p>Preencha os dados para calcular</p>
+
     {% endif %}
 
 </div>
-
-
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            {% for mensagem in mensagens %}
+                <div class="mensagem-sucesso">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% if busca %}
 <div class="historico">
+
 
 {% for calculo in busca %}
 
@@ -72,7 +83,7 @@
         <p><strong>Custo fixo:</strong> R$ {{ calculo[0] }}</p>
         <p><strong>Custo variável:</strong> R$ {{ calculo[1] }}</p>
         <p><strong>Quantidade:</strong> {{ calculo[2] }}</p>
-        <p><strong>Resultado:</strong> R$ {{ calculo[3] }}</p>
+        <p><strong>Resultado:</strong> R$ {{ "%.2f"|format(calculo[3]) }}</p>
         <p><strong>Data:</strong> {{ calculo[4] }}</p>
 
         <div class="acoes">
@@ -88,7 +99,11 @@
                     name="id"
                     value="{{ calculo[5] }}">
 
-                <button class="btn-excluir" type="submit">
+                <button
+                    class="btn-excluir"
+                    type="submit"
+                    onclick="return confirm('Deseja realmente excluir esse cálculo?')"
+                >
                     Excluir
                 </button>
 
@@ -100,9 +115,17 @@
 
 {% endfor %}
 
+
+
+{% else %}
+
+<p>Nenhum cálculo encontrado.</p>
+
+{% endif %}
 </div>
 
-
-<a href="/">Voltar</a>
+<a class="btn-voltar" href="/">
+    ← Voltar ao Dashboard
+</a>
 
 {% endblock %}

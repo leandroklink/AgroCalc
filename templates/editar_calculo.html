@@ -13,13 +13,13 @@
     <input type="hidden" name="id" value="{{ calculo[0] }}">
 
     <label>Custo fixo:</label>
-    <input type="number" name="custo_fixo" required value="{{ calculo[1] }}">
+    <input type="number" name="custo_fixo" required step="0.01" value="{{ calculo[1] }}">
 
     <label>Custo Variável:</label>
-    <input type="number" name="custo_variavel" required value="{{ calculo[2] }}">
+    <input type="number" name="custo_variavel" required step="0.01" value="{{ calculo[2] }}">
 
     <label>Quantidade:</label>
-    <input type="number" name="quantidade" required value="{{ calculo[3] }}"
+    <input type="number" name="quantidade" required step="0.01" value="{{ calculo[3] }}"
     >
 
     <button type="submit">
@@ -28,6 +28,7 @@
 
 </form>
 
-<a href="/custos">Voltar</a>
-
+<a class="btn-voltar" href="/">
+    ← Voltar ao Dashboard
+</a>
 {% endblock %}

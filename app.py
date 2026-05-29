@@ -1,7 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash
+)
 import database
 
 app = Flask(__name__) #criando aplicação Flask
+app.secret_key = '123456'
 database.criar_banco()
 
 #Rota principal (Dashboard)
@@ -31,8 +39,11 @@ def custos():
                 cf,
                 cv,
                 qd,
-                resultado
+                resultado   
             )
+            flash(f'Cálculo salvo! Resultado: R$ {resultado}')
+            return redirect(url_for('custos'))
+            
 
         except ValueError:
             return render_template(
@@ -45,9 +56,9 @@ def custos():
 
     busca = database.buscar_calculos()
 
+
     return render_template(
         'custos.html',
-        resultado=resultado,
         busca=busca
     ) 
 
