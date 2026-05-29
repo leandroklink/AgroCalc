@@ -6,76 +6,101 @@
 
 {% block content %}
 
-<h1>Custos de Produção</h1>
-
-<form action="/custos" method="POST">
-    <label>Custo fixo: </label>
-    <input type="number" name="custo_fixo" required value='{{custo_fixo}}'>
-
-    <label>Custo Variável: </label>
-    <input type="number" name="custo_variavel" required value='{{custo_variavel}}'>
-
-    <label>Quantidade: </label>
-    <input type="number" name="quantidade" required value='{{quantidade}}'>
-
-    <button type='submit'>
-        Calcular
-    </button>
-</form>      
-
-{% if erro %}
-<p>
-    {{ erro }}
-</p>
-{% endif %}
+<div class="container">
 
 
-{% if resultado is not none%}
+    <div class="card-form">
 
-<p>
-    Resultado:
-    R$ {{ resultado }}
-</p>
+        <h1>Custos de Produção</h1>
+        <form action="/custos" method="POST">
 
-{% else %}
+            <label>Custo fixo</label>
+            <input
+                type="number"
+                name="custo_fixo"
+                required
+                value="{{ custo_fixo }}"
+            >
 
-<p>
-    Preencha os dados para calcular
-</p>
+            <label>Custo Variável</label>
+            <input
+                type="number"
+                name="custo_variavel"
+                required
+                value="{{ custo_variavel }}"
+            >
 
-{% endif %}
+            <label>Quantidade</label>
+            <input
+                type="number"
+                name="quantidade"
+                required
+                value="{{ quantidade }}"
+            >
 
-<p>
-    Outros Calculos:
-</p>
-<hr>
+            <button type="submit">
+                Calcular
+            </button>
 
-{% for calculo in busca %}
+        </form>
 
-<div>
-    <p>Custo fixo: R$ {{ calculo[0] }}</p>
-    <p>Custo variável: R$ {{ calculo[1] }}</p>
-    <p>Quantidade: {{ calculo[2] }}</p>
-    <p>Resultado: R$ {{ calculo[3] }}</p>
-    <p>Data: {{ calculo[4] }}</p>
+    </div>
+
+    {% if erro %}
+        <p class="erro">
+            {{ erro }}
+        </p>
+    {% endif %}
+
+    {% if resultado %}
+        <div class="resultado">
+            Resultado: <strong>R$ {{ resultado }}</strong>
+        </div>
+    {% else %}
+        <p>Preencha os dados para calcular</p>
+    {% endif %}
+
 </div>
 
 
-<form method="POST" action="/deletar-calculo">
+<div class="historico">
 
-<input type="hidden"
-    name="id"
-    value="{{ calculo[5] }}">
+{% for calculo in busca %}
 
-<button type="submit">
-    Excluir
-</button>
-<a href="/editar-calculo/{{ calculo[5] }}">
-    Editar
-</a>
-</form>
-<hr>
+    <div class="card-calculo">
+
+        <p><strong>Custo fixo:</strong> R$ {{ calculo[0] }}</p>
+        <p><strong>Custo variável:</strong> R$ {{ calculo[1] }}</p>
+        <p><strong>Quantidade:</strong> {{ calculo[2] }}</p>
+        <p><strong>Resultado:</strong> R$ {{ calculo[3] }}</p>
+        <p><strong>Data:</strong> {{ calculo[4] }}</p>
+
+        <div class="acoes">
+
+            <a class="btn-editar" href="/editar-calculo/{{ calculo[5] }}">
+                Editar
+            </a>
+
+            <form method="POST" action="/deletar-calculo">
+
+                <input
+                    type="hidden"
+                    name="id"
+                    value="{{ calculo[5] }}">
+
+                <button class="btn-excluir" type="submit">
+                    Excluir
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
 {% endfor %}
+
+</div>
 
 
 <a href="/">Voltar</a>

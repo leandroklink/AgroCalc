@@ -116,14 +116,24 @@ def deletar_calculo(id):
     conexao.close()
 
 
-
-def editar_calculo(id):
+def atualizar_calculo(id, cf, cv, qd, resultado):
     conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
-
-""")
-
+        UPDATE calculos
+        SET
+            custo_fixo = ?,
+            custo_variavel = ?,
+            quantidade = ?,
+            resultado = ?
+        WHERE id = ?
+    """, (
+        cf,
+        cv,
+        qd,
+        resultado,
+        id
+    ))
     conexao.commit()
     conexao.close()
