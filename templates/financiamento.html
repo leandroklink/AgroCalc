@@ -1,2 +1,104 @@
-<h1>Financiamento Agrícola</h1>
-<a href="/">Voltar</a>
+{% extends 'base.html' %}
+{% block title %}
+    Financiamentos
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+    <div class="card-form">
+
+        <h1>Financiamentos</h1>
+        <form action="/financiamento" method="POST">
+
+            <label>Valor do Financiamento</label>
+            <input
+                type="number"
+                name="valor_financiado"
+                required
+                step="0.01"
+                value="{{ valor_financiado }}"
+            >
+
+            <label>Taxa</label>
+            <input
+                type="number"
+                name="taxa"
+                required
+                step="0.01"
+                value="{{ taxa }}"
+            >
+
+            <label>Parcelas</label>
+            <input
+                type="number"
+                name="parcelas"
+                required
+                step="0.01"
+                value="{{ parcelas }}"
+            >
+
+            <button type="submit">
+                Calcular
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if erro %}
+        <p class="erro">
+            {{ erro }}
+        </p>
+    {% endif %}
+
+{% if parcela %}
+
+<div class="resultado">
+
+    <h3>Resultado da Simulação</h3>
+
+    <p>
+        Parcela:
+        <strong>
+            R$ {{ "%.2f"|format(parcela) }}
+        </strong>
+    </p>
+
+    <p>
+        Total pago:
+        <strong>
+            R$ {{ "%.2f"|format(total_pago) }}
+        </strong>
+    </p>
+
+    <p>
+        Juros pagos:
+        <strong>
+            R$ {{ "%.2f"|format(juros_total) }}
+        </strong>
+    </p>
+
+</div>
+
+{% endif %}
+
+</div>
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            {% for mensagem in mensagens %}
+                <div class="mensagem-sucesso">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<a class="btn-voltar" href="/">
+    ← Voltar ao Dashboard
+</a>
+
+{% endblock %}

@@ -104,11 +104,6 @@ def salvar_edicao():
     return redirect(url_for('custos'))
 
 
-#página financiamento
-@app.route("/financiamento")
-def financiamento():
-    return render_template("financiamento.html")
-
 # Página conversor
 @app.route("/conversor")
 def conversor():
@@ -125,6 +120,63 @@ def talhoes():
 @app.route("/fertilizantes")
 def fertilizantes():
     return render_template("fertilizante.html")
+
+
+
+@app.route('/financiamento', methods=['GET', 'POST'])
+def financiamento():
+
+    parcela = None
+    total_pago = None
+    juros_total = None
+
+    if request.method == 'POST':
+        try:
+            valor_input = request.form.get("valor_financiado")
+
+            taxa_input = request.form.get("taxa")
+
+            parcelas_input = request.form.get("parcelas")
+
+            valor = float(valor_input)
+            taxa = float(taxa_input)
+            parcelas = int(parcelas_input)
+
+            taxa = taxa / 100
+
+            potencia = (1 + taxa) ** parcelas
+
+            numerador = taxa * potencia
+
+            denominador = potencia - 1
+
+            parcela = (valor *(numerador / denominador))
+
+            total_pago = parcela * parcelas
+
+            juros_total = (total_pago - valor)
+
+            return render_template(
+                'financiamento.html',
+                parcela=parcela,
+                total_pago=total_pago,
+                juros_total=juros_total
+            )
+        except ValueError:
+
+            return render_template(
+                'financiamento.html',
+                erro='Preencha os dados corretamente.'
+            )
+
+    return render_template(
+        'financiamento.html',
+        parcela=parcela,
+        total_pago=total_pago,
+        juros_total=juros_total
+    )
+
+
 
 
 # Executa o servidor
