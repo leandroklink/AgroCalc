@@ -141,32 +141,60 @@ def financiamento():
             valor = float(valor_input)
             taxa = float(taxa_input)
             parcelas = int(parcelas_input)
+            if parcelas > 1000:
+                return render_template('financiamento.html',
+                    erro='Número de parcelas muito alto.')
 
             taxa = taxa / 100
 
             potencia = (1 + taxa) ** parcelas
 
             numerador = taxa * potencia
-
             denominador = potencia - 1
 
             parcela = (valor *(numerador / denominador))
-
             total_pago = parcela * parcelas
-
             juros_total = (total_pago - valor)
+
+            saldo = valor
+            
+            amortizacao = []
+
+            for numero in range(1, parcelas + 1):
+
+                juros = saldo * taxa
+
+                amortizacao_mes = parcela - juros
+
+                saldo = saldo - amortizacao_mes
+
+                saldo = round(saldo, 2)
+                saldo = max(0, saldo)
+
+                amortizacao.append((
+                    numero,
+                    juros,
+                    amortizacao_mes,
+                    saldo
+                ))
 
             return render_template(
                 'financiamento.html',
                 parcela=parcela,
                 total_pago=total_pago,
-                juros_total=juros_total
+                juros_total=juros_total,
+                amortizacao=amortizacao
             )
         except ValueError:
 
             return render_template(
                 'financiamento.html',
                 erro='Preencha os dados corretamente.'
+            )
+        except OverflowError:
+            return render_template(
+                'financiamento.html',
+                erro='Valores muito altos para realizar o cálculo.'
             )
 
     return render_template(
@@ -175,9 +203,6 @@ def financiamento():
         total_pago=total_pago,
         juros_total=juros_total
     )
-
-
-
 
 # Executa o servidor
 if __name__ == "__main__":

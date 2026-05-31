@@ -396,20 +396,26 @@ button {
     cursor: pointer;
 }
 
+
+
 .resultado {
+    background: white;
+    border-top: 5px solid #2e7d32;
+
+    border-radius: 12px;
+    padding: 20px;
     margin-top: 20px;
-    background: #e8f5e9;
-    padding: 15px;
-    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .erro {
-    color: red;
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 8px;
     margin-top: 15px;
 }
-
-
-
 
 .acoes {
     display: flex;
@@ -473,4 +479,27 @@ button {
 
 .btn-voltar:hover {
     transform: translateY(-2px);
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #2e7d32;
+    color: white;
+    padding: 12px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+tr:hover {
+    background: #f5f5f5;
 }
