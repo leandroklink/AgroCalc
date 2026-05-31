@@ -5,6 +5,7 @@ def conectar():
     conexao = sqlite3.connect('banco.db')
     return conexao
 
+#parte de custos
 def criar_banco():
     conexao = conectar()
     cursor = conexao.cursor()
@@ -17,6 +18,17 @@ def criar_banco():
         quantidade REAL,
         resultado REAL,
         data_calculo DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS talhoes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        area REAL,
+        produtividade REAL,
+        producao REAL,
+        data_talhao DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     """)
     conexao.commit()
@@ -138,3 +150,107 @@ def atualizar_calculo(id, cf, cv, qd, resultado):
     conexao.commit()
     conexao.close()
 
+
+
+
+
+#parte de talhoes
+
+
+def salvar_talhao(nome, area, produtividade, producao):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        INSERT INTO talhoes
+        (
+            nome, area, produtividade, producao
+        )
+        VALUES (?, ?, ?, ?)
+    """, (
+        nome, area, produtividade, producao
+    ))
+
+    conexao.commit()
+    conexao.close()
+
+def buscar_talhoes():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT
+            id, nome, area, produtividade, data_talhao, producao
+            FROM talhoes
+        ORDER BY id DESC
+        LIMIT 20
+    """)
+
+    busca = cursor.fetchall()
+
+    talhoes_formatados = []
+
+    for talhao in busca:
+        data_formatada_t = datetime.strptime(
+            talhao[4],
+            '%Y-%m-%d %H:%M:%S'
+        ).strftime('%d/%m/%Y às %H:%M')
+
+        talhoes_formatados.append((
+            talhao[0],
+            talhao[1],
+            talhao[2],
+            talhao[3],
+            data_formatada_t,
+            talhao[5]
+        ))
+
+    conexao.close()
+
+    return talhoes_formatados
+
+
+def buscar_talhao_por_id(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT * FROM talhoes
+        WHERE id = ?
+    """, (id,))
+    busca = cursor.fetchone()
+
+    conexao.close()
+    return busca
+
+
+def deletar_talhao(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        DELETE FROM talhoes
+        WHERE id = ?
+    """, (id,))
+
+    conexao.commit()
+    conexao.close()
+
+
+def atualizar_talhao(id, nome, area, produtividade, producao):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        UPDATE talhoes
+        SET
+            nome = ?,
+            area = ?,
+            produtividade = ?,
+            producao = ?
+        WHERE id = ?
+    """, (
+        nome, area, produtividade, producao, id
+    ))
+    conexao.commit()
+    conexao.close()

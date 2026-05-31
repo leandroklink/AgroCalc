@@ -261,14 +261,18 @@ def conversor():
         tipo=tipo,
         resultado=resultado)
 
+
+
+
+
 #Rota de talhões
-@app.route("/talhoes")
+@app.route("/talhoes", methods = ['GET','POST'])
 def talhoes():
 
     producao = None
     if request.method == 'POST':
         try:
-            nome_talhao = request.form.get("nome_talhao")
+            nome = request.form.get("nome_talhao")
             area_input = request.form.get("area")
             produtividade_input = request.form.get("produtividade")
 
@@ -279,12 +283,12 @@ def talhoes():
             producao = area * produtividade
 
             database.salvar_talhao(
-                nome_talhao,
+                nome,
                 area,
                 produtividade,
                 producao   
             )
-            flash(f'Cálculo salvo! Produtividade do talhão {nome_talhao} de {producao}.')
+            flash(f'Talhão {nome} cadastrado! Produção estimada: {producao:.2f} sacas.')
             return redirect(url_for('talhoes'))
             
 
@@ -292,13 +296,12 @@ def talhoes():
             return render_template(
                 'talhoes.html',
                 erro='Preencha todos os campos corretamente.',
-                nome_talhao=nome_talhao,
+                nome=nome,
                 area=area,
                 produtividade=produtividade,
             )
 
     busca = database.buscar_talhoes()
-
 
     return render_template(
         'talhoes.html',
@@ -306,7 +309,45 @@ def talhoes():
     ) 
 
 
+#deletar calculo da tela de talhoes
+@app.route('/deletar-talhao', methods=['POST'])
+def deletar_talhao():
+    id = int(request.form.get('id'))
+    database.deletar_talhao(id)
+    return redirect(url_for('talhoes'))
 
+
+#alterar calculo tela de talhoes
+@app.route('/editar-talhao/<int:id>')
+def editar_talhao(id):
+    talhao = database.buscar_talhao_por_id(id)
+    return render_template(
+        'editar_talhao.html',
+        talhao=talhao
+    )
+
+#finalizar edição
+@app.route('/salvar-edicao-talhao', methods=['POST'])
+def salvar_edicao_talhao():
+
+    id = int(request.form.get('id'))
+    nome = request.form.get("nome_talhao")
+    area_input = request.form.get("area")
+    produtividade_input = request.form.get("produtividade")
+
+    area = float(area_input)
+    produtividade = float(produtividade_input)
+
+    producao = area * produtividade
+    
+    database.atualizar_talhao(
+        id,
+        nome,
+        area,
+        produtividade,
+        producao  
+    )
+    return redirect(url_for('talhoes'))
 
 
 # Executa o servidor

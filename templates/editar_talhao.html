@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Editar Talhão
+{% endblock %}
+
+{% block content %}
+
+<h1>Editar Talhão</h1>
+
+<form action="/salvar-edicao-talhao" method="POST">
+
+    <input type="hidden" name="id" value="{{ talhao[0] }}">
+    <label>Nome do talhão</label>
+                <input type="text" name="nome_talhao" required value="{{ talhao[1] }}">
+
+                <label>Área (ha)</label>
+                <input type="number" name="area" required step="0.01" value="{{ talhao[2] }}">
+
+                <label>Produtividade (sacas/ha)</label>
+                <input type="number" name="produtividade" required step="0.01" value="{{ talhao[3] }}">
+
+                <button type="submit">
+                    Calcular
+                </button>
+</form>
+
+<a class="btn-voltar" href="/">
+    ← Voltar ao Dashboard
+</a>
+{% endblock %}

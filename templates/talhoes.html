@@ -14,12 +14,12 @@
         <h1>Talhões</h1>
         <form action="/talhoes" method="POST">
 
+            
             <label>Nome do talhão</label>
             <input
-                type="number"
+                type="text"
                 name="nome_talhao"
                 required
-                step="0.01"
                 value="{{ nome_talhao }}"
             >
 
@@ -55,12 +55,6 @@
         </p>
     {% endif %}
 
-    {% if resultado %}
-        <div class="resultado">
-            Resultado: <strong>R$ {{ resultado }}</strong>
-        </div>
-
-    {% endif %}
 
 </div>
     {% with mensagens = get_flashed_messages() %}
@@ -72,37 +66,53 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+
 {% if busca %}
 <div class="historico">
 
-
-{% for talhoes in busca %}
+{% for talhao in busca %}
 
     <div class="card-calculo">
 
-        <p><strong>Custo fixo:</strong> R$ {{ calculo[0] }}</p>
-        <p><strong>Custo variável:</strong> R$ {{ calculo[1] }}</p>
-        <p><strong>Quantidade:</strong> {{ calculo[2] }}</p>
-        <p><strong>Resultado:</strong> R$ {{ "%.2f"|format(calculo[3]) }}</p>
-        <p><strong>Data:</strong> {{ calculo[4] }}</p>
+        <p><strong>Talhão:</strong> {{ talhao[1] }}</p>
+
+        <p><strong>Área:</strong>
+            {{ "%.2f"|format(talhao[2]) }} ha
+        </p>
+
+        <p><strong>Produtividade:</strong>
+            {{ "%.2f"|format(talhao[3]) }} sacas/ha
+        </p>
+
+        <p><strong>Produção estimada:</strong>
+            {{ "%.2f"|format(talhao[5]) }} sacas
+        </p>
+
+        <p><strong>Data:</strong>
+            {{ talhao[4] }}
+        </p>
 
         <div class="acoes">
 
-            <a class="btn-editar" href="/editar-calculo/{{ calculo[5] }}">
+            <a
+                class="btn-editar"
+                href="/editar-talhao/{{ talhao[0] }}"
+            >
                 Editar
             </a>
 
-            <form method="POST" action="/deletar-calculo">
+            <form method="POST" action="/deletar-talhao">
 
                 <input
                     type="hidden"
                     name="id"
-                    value="{{ calculo[5] }}">
+                    value="{{ talhao[0] }}"
+                >
 
                 <button
                     class="btn-excluir"
                     type="submit"
-                    onclick="return confirm('Deseja realmente excluir esse cálculo?')"
+                    onclick="return confirm('Deseja realmente excluir este talhão?')"
                 >
                     Excluir
                 </button>
@@ -115,11 +125,11 @@
 
 {% endfor %}
 
-
+</div>
 
 {% else %}
 
-<p>Nenhum cálculo encontrado.</p>
+<p>Nenhum talhão encontrado.</p>
 
 {% endif %}
 </div>
