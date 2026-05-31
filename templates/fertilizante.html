@@ -1,2 +1,74 @@
-<h1>Blend de Fertilizantes</h1>
-<a href="/">Voltar</a>
+{% extends 'base.html' %}
+{% block title %}
+    Fertilizantes
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+    <div class="card-form">
+
+        <h1>Fertilizantes</h1>
+        <form action="/fertilizante" method="POST">
+
+            <label>Área (ha)</label>
+            <input
+                type="number"
+                name="area"
+                required
+                step="0.01"
+                value="{{ area }}"
+            >
+
+            <label>Dose (kg/ha)</label>
+            <input
+                type="number"
+                name="dose"
+                required
+                step="0.01"
+                value="{{ dose }}">
+
+            <button type="submit">
+                Calcular
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if erro %}
+        <p class="erro">
+            {{ erro }}
+        </p>
+    {% endif %}
+
+{% if total %}
+
+<div class="resultado">
+
+    <h3>Resultado da Simulação</h3>
+
+    <p>
+        <strong>
+            {{ "%.2f"|format(total) }} Kg
+        </strong>
+    </p>
+    <p>
+        <strong>
+            {{ "%.2f"|format(totalTol) }} Toneladas
+        </strong>
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<a class="btn-voltar" href="/">
+    ← Voltar ao Dashboard
+</a>
+
+{% endblock %}

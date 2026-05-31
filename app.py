@@ -116,10 +116,8 @@ def talhoes():
     return render_template("talhoes.html")
 
 
-# Página fertilizantes
-@app.route("/fertilizantes")
-def fertilizantes():
-    return render_template("fertilizante.html")
+
+
 
 
 
@@ -204,6 +202,47 @@ def financiamento():
         juros_total=juros_total
     )
 
+# Página fertilizantes
+@app.route('/fertilizante', methods = ['GET','POST'])
+def fertilizante():
+
+    area = None
+    dose = None
+    total = None
+    totalTol = None
+
+    if request.method == 'POST':
+        try:
+            area_input = request.form.get("area")
+            dose_input = request.form.get("dose")
+            area = float(area_input)
+            dose = float(dose_input)
+
+            total = area * dose
+            totalTol = total / 1000
+            return render_template(
+                'fertilizante.html',
+                total=total,
+                totalTol=totalTol)
+        
+        except ValueError:
+            return render_template(
+                'fertilizante.html',
+                erro='Preencha todos os campos corretamente.',
+                area=area_input,
+                dose=dose_input)
+        
+    return render_template(
+        'fertilizante.html',
+        area=area,
+        dose=dose,
+        total=total,
+        totalTol=totalTol)
+
+
+
 # Executa o servidor
 if __name__ == "__main__":
     app.run(debug=True)
+
+
