@@ -104,12 +104,6 @@ def salvar_edicao():
     return redirect(url_for('custos'))
 
 
-# Página conversor
-@app.route("/conversor")
-def conversor():
-    return render_template("conversor.html")
-
-
 # Página talhões
 @app.route("/talhoes")
 def talhoes():
@@ -238,6 +232,45 @@ def fertilizante():
         dose=dose,
         total=total,
         totalTol=totalTol)
+
+
+# Página conversor
+@app.route("/conversor", methods = ['GET','POST'])
+def conversor():
+
+    valor = None
+    tipo = None
+    resultado = None
+
+    if request.method == 'POST':
+        try:
+            valor_input = request.form.get("valor")
+            tipo = request.form.get("tipo")
+            valor = float(valor_input)
+
+            if tipo == "kg_ton":
+                resultado = valor / 1000
+            elif tipo == "ton_kg":
+                resultado = valor * 1000
+            elif tipo == "ha_alq":
+                resultado = valor / 2.42
+
+            return render_template(
+                'conversor.html',
+                resultado=resultado)
+        
+        except ValueError:
+            return render_template(
+                'conversor.html',
+                erro='Preencha todos os campos corretamente.',
+                valor=valor_input,
+                tipo=tipo)
+        
+    return render_template(
+        'conversor.html',
+        valor=valor,
+        tipo=tipo,
+        resultado=resultado)
 
 
 
