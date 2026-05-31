@@ -137,3 +137,4 @@ def atualizar_calculo(id, cf, cv, qd, resultado):
     ))
     conexao.commit()
     conexao.close()
+

@@ -104,17 +104,6 @@ def salvar_edicao():
     return redirect(url_for('custos'))
 
 
-# Página talhões
-@app.route("/talhoes")
-def talhoes():
-    return render_template("talhoes.html")
-
-
-
-
-
-
-
 @app.route('/financiamento', methods=['GET', 'POST'])
 def financiamento():
 
@@ -272,10 +261,54 @@ def conversor():
         tipo=tipo,
         resultado=resultado)
 
+#Rota de talhões
+@app.route("/talhoes")
+def talhoes():
+
+    producao = None
+    if request.method == 'POST':
+        try:
+            nome_talhao = request.form.get("nome_talhao")
+            area_input = request.form.get("area")
+            produtividade_input = request.form.get("produtividade")
+
+
+            area = float(area_input)
+            produtividade = float(produtividade_input)
+
+            producao = area * produtividade
+
+            database.salvar_talhao(
+                nome_talhao,
+                area,
+                produtividade,
+                producao   
+            )
+            flash(f'Cálculo salvo! Produtividade do talhão {nome_talhao} de {producao}.')
+            return redirect(url_for('talhoes'))
+            
+
+        except ValueError:
+            return render_template(
+                'talhoes.html',
+                erro='Preencha todos os campos corretamente.',
+                nome_talhao=nome_talhao,
+                area=area,
+                produtividade=produtividade,
+            )
+
+    busca = database.buscar_talhoes()
+
+
+    return render_template(
+        'talhoes.html',
+        busca=busca
+    ) 
+
+
+
 
 
 # Executa o servidor
 if __name__ == "__main__":
     app.run(debug=True)
-
-
