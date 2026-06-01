@@ -15,6 +15,7 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
@@ -63,10 +64,6 @@
 
         <div class="topbar-right">
 
-            <span class="notification">
-                🔔
-            </span>
-
             <div class="user-profile">
                 <div class="avatar">
                     LK
@@ -76,6 +73,9 @@
                     <strong>Leandro</strong>
                     <p>Administrador</p>
                 </div>
+                    <button id="tema-btn"class = "tema-btn">
+                        🌙
+                    </button>
             </div>
 
         </div>
@@ -85,6 +85,7 @@
         {% endblock %}
 
     </main>
-
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
+
