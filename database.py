@@ -31,6 +31,15 @@ def criar_banco():
         data_talhao DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     """)
+
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS atividades (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        descricao TEXT,
+        data_atividade DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
     conexao.commit()
     conexao.close()
 
@@ -254,3 +263,101 @@ def atualizar_talhao(id, nome, area, produtividade, producao):
     ))
     conexao.commit()
     conexao.close()
+
+
+#rotas do index
+
+#Producao Total
+def producao_total():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT SUM(producao)
+        FROM talhoes
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conexao.close()
+
+    return total or 0
+
+def custo_operacional():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT SUM(resultado)
+        FROM calculos
+    """)
+    total = cursor.fetchone()[0]
+    conexao.close()
+    return total
+
+
+#soma da quantidade de talhoes
+def total_talhoes():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM talhoes
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conexao.close()
+
+    return total or 0
+
+
+#soma da área de talhões
+def area_total():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT SUM(area)
+        FROM talhoes
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conexao.close()
+
+    return total or 0
+
+#salvar atividade
+def registrar_atividade(descricao):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        INSERT INTO atividades (descricao)
+        VALUES (?)
+    """, (descricao,))
+
+    conexao.commit()
+    conexao.close()
+
+
+#exibição de historico
+def buscar_atividades():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT descricao
+        FROM atividades
+        ORDER BY id DESC
+        LIMIT 10
+    """)
+
+    atividades = cursor.fetchall()
+
+    conexao.close()
+
+    return atividades
+

@@ -12,10 +12,7 @@ app = Flask(__name__) #criando aplicação Flask
 app.secret_key = '123456'
 database.criar_banco()
 
-#Rota principal (Dashboard)
-@app.route("/")
-def home():
-    return render_template("index.html")
+
 
 # página de custos
 @app.route('/custos', methods=['GET', 'POST'])
@@ -41,6 +38,9 @@ def custos():
                 qd,
                 resultado   
             )
+            database.registrar_atividade(
+                f'Calculo realizado'
+                )
             flash(f'Cálculo salvo! Resultado: R$ {resultado}')
             return redirect(url_for('custos'))
             
@@ -67,6 +67,9 @@ def custos():
 def deletar_calculo():
     id = int(request.form.get('id'))
     database.deletar_calculo(id)
+    database.registrar_atividade(
+    f'Calculo deletado.'
+    )
     return redirect(url_for('custos'))
 
 
@@ -76,6 +79,7 @@ def deletar_calculo():
 @app.route('/editar-calculo/<int:id>')
 def editar_calculo(id):
     calculo = database.buscar_calculo_por_id(id)
+
     return render_template(
         'editar_calculo.html',
         calculo=calculo
@@ -100,7 +104,9 @@ def salvar_edicao():
         qd,
         resultado
     )
-
+    database.registrar_atividade(
+    f'Calculo atualizado'
+    )
     return redirect(url_for('custos'))
 
 
@@ -158,6 +164,9 @@ def financiamento():
                     amortizacao_mes,
                     saldo
                 ))
+            database.registrar_atividade(
+            'Financiamento calculado'
+            )
 
             return render_template(
                 'financiamento.html',
@@ -203,6 +212,10 @@ def fertilizante():
 
             total = area * dose
             totalTol = total / 1000
+
+            database.registrar_atividade(
+                'Financiamento calculado')
+            
             return render_template(
                 'fertilizante.html',
                 total=total,
@@ -243,6 +256,8 @@ def conversor():
                 resultado = valor * 1000
             elif tipo == "ha_alq":
                 resultado = valor / 2.42
+            database.registrar_atividade(
+                'Conversão calculada')
 
             return render_template(
                 'conversor.html',
@@ -288,6 +303,10 @@ def talhoes():
                 produtividade,
                 producao   
             )
+            database.registrar_atividade(
+                'Financiamento calculado'
+            )
+
             flash(f'Talhão {nome} cadastrado! Produção estimada: {producao:.2f} sacas.')
             return redirect(url_for('talhoes'))
             
@@ -314,6 +333,9 @@ def talhoes():
 def deletar_talhao():
     id = int(request.form.get('id'))
     database.deletar_talhao(id)
+    database.registrar_atividade(
+        f'Talhão de id {id} deletado'
+    )
     return redirect(url_for('talhoes'))
 
 
@@ -347,9 +369,37 @@ def salvar_edicao_talhao():
         produtividade,
         producao  
     )
+    database.registrar_atividade(
+        f'Talhão {nome} atualizado.'
+    )
     return redirect(url_for('talhoes'))
+
+
+#rotas do index
+@app.route('/')
+def index():
+
+    producao = database.producao_total()
+
+    custo = database.custo_operacional()
+
+    talhoes = database.total_talhoes()
+
+    area = database.area_total()
+
+    atividades = database.buscar_atividades()
+
+    return render_template(
+        'index.html',
+        producao=producao,
+        custo=custo,
+        talhoes=talhoes,
+        area=area,
+        atividades=atividades
+    )
 
 
 # Executa o servidor
 if __name__ == "__main__":
     app.run(debug=True)
+

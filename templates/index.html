@@ -27,25 +27,25 @@ Dashboard
     <div class="card">
         <span class="card-icon">🌾</span>
         <h3>Produção Total</h3>
-        <p>1.250 sacas</p>
+        <p>{{ "%.2f"|format(producao) }} sacas</p>
     </div>
 
     <div class="card">
         <span class="card-icon">💰</span>
         <h3>Custo Operacional</h3>
-        <p>R$ 85.400</p>
+        <p>R$ {{ "%.2f"|format(custo) }}</p>
     </div>
 
     <div class="card">
         <span class="card-icon">🚜</span>
         <h3>Talhões Ativos</h3>
-        <p>12</p>
+        <p>{{ talhoes }}</p>
     </div>
 
     <div class="card">
         <span class="card-icon">📈</span>
-        <h3>Eficiência</h3>
-        <p>89%</p>
+        <h3>Área Total</h3>
+        <p>{{ "%.2f"|format(area) }} ha</p>
     </div>
 
 </section>
@@ -74,10 +74,13 @@ Dashboard
         <h2>📝 Atividades Recentes</h2>
 
         <ul class="activity-list">
-            <li>Talhão Norte atualizado</li>
-            <li>Financiamento calculado</li>
-            <li>Sensor convertido</li>
-            <li>Blend de fertilizante gerado</li>
+
+        {% for atividade in atividades %}
+
+            <li>{{ atividade[0] }}</li>
+
+        {% endfor %}
+
         </ul>
 
     </div>
