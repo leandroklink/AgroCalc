@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Cadastrar Usuário
+{% endblock %}
+
+{% block content %}
+
+<h1>Cadastrar Usuário</h1>
+
+<form action="/cadastrar-usuario" method="POST">
+
+    <label>Nome:</label>
+    <input type="text" name="nome" required value="{{ nome }}">
+
+    <label>Email:</label>
+    <input type="email" name="email" required value="{{ email }}">
+
+    <label>Senha:</label>
+    <input type="password" name="senha" required value="{{ senha }}">
+
+    <label>Confirmar senha:</label>
+    <input type="password" name="senhaConfirm" required value="{{ senhaConfirm }}">
+
+    <button type="submit" class='submit'>
+        Criar Usuário
+    </button>
+
+</form>
+
+<a class="btn-voltar" href="/login">
+    Entrar
+</a>
+
+<a class="btn-voltar" href="/">
+    ← Voltar
+</a>
+{% endblock %}

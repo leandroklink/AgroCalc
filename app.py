@@ -6,6 +6,8 @@ from flask import (
     url_for,
     flash
 )
+
+from werkzeug.security import generate_password_hash #criptografia de senha
 import database
 
 app = Flask(__name__) #criando aplicação Flask
@@ -397,6 +399,45 @@ def index():
         area=area,
         atividades=atividades
     )
+
+#cadastro e login de usuários
+@app.route('/cadastrar-usuario', methods=["GET","POST"])
+def cadastrar_usuarios():
+
+    if request.method == 'POST':
+
+        nome = request.form.get("nome")
+        email = request.form.get("email")
+        senha = request.form.get("senha")
+        senhaConfirm = request.form.get("senhaConfirm")
+
+        if not nome or not email or not senha:
+            return render_template(
+                'cadastro.html',
+                erro='Preencha todos os campos.')
+        
+        
+        if (senha == senhaConfirm):
+            senha_hash = generate_password_hash(senha)
+            database.salvar_usuario(
+                nome,
+                email,
+                senha_hash)
+            
+            database.registrar_atividade(
+                f'Cadastro de usuário realizado')
+            
+            flash(f'Cadastro Realizado!')
+            return redirect(url_for('login'))                
+        else:
+            return render_template(
+            'cadastro.html',
+            erro='As senhas precisam coincidir.',)
+
+    return render_template(
+        'cadastro.html',
+    ) 
+
 
 
 # Executa o servidor

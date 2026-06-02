@@ -32,7 +32,6 @@ def criar_banco():
     )
     """)
 
-
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS atividades (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,6 +39,15 @@ def criar_banco():
         data_atividade DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL, 
+        senha TEXT NOT NULL
+    )
+    """) #unique no email para não cadastrar mais que um usuário no mesmo sistema
     conexao.commit()
     conexao.close()
 
@@ -360,4 +368,44 @@ def buscar_atividades():
     conexao.close()
 
     return atividades
+
+
+
+#login de usuários
+
+
+def salvar_usuario(nome, email, senha):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        INSERT INTO usuarios
+        (
+            nome,
+            email,
+            senha
+        )
+        VALUES (?, ?, ?)
+    """, (
+        nome,
+        email,
+        senha
+    ))
+    conexao.commit()
+    conexao.close()
+
+
+
+def buscar_usuario_por_email(email):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT * FROM usuarios WHERE
+        email = ? """,(email,))
+    usuario = cursor.fetchone()
+    conexao.close()
+
+    return usuario
+
 

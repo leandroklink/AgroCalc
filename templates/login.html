@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Cadastrar Usuário
+{% endblock %}
+
+{% block content %}
+
+<h1>Cadastrar Usuário</h1>
+
+<form action="/login" method="POST">
+
+    <label>Nome:</label>
+    <input type="text" name="nome" required value="{{ nome }}">
+
+    <label>Confirmar senha:</label>
+    <input type="password" name="senha" required value="{{ senha }}">
+
+    <button type="submit" class='submit'>
+        Entrar
+    </button>
+
+</form>
+
+<a class="btn-voltar" href="/">
+    ← Voltar
+</a>
+{% endblock %}
