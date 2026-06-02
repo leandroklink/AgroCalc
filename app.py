@@ -4,9 +4,10 @@ from flask import (
     request,
     redirect,
     url_for,
-    flash
+    flash,
+    session
 )
-
+from werkzeug.security import check_password_hash #criptografia de senha
 from werkzeug.security import generate_password_hash #criptografia de senha
 import database
 
@@ -437,6 +438,22 @@ def cadastrar_usuarios():
     return render_template(
         'cadastro.html',
     ) 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if request.method == "POST":
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+
+        usuario = database.buscar_usuario_por_email(email)
+
+        if not usuario:
+            return render_template(
+                'login.html',
+                erro="Usuário não encontrado"
+            )
+        
 
 
 
