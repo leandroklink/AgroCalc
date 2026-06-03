@@ -408,4 +408,3 @@ def buscar_usuario_por_email(email):
 
     return usuario
 
-

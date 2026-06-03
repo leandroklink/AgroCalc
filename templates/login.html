@@ -10,8 +10,8 @@
 
 <form action="/login" method="POST">
 
-    <label>Nome:</label>
-    <input type="text" name="nome" required value="{{ nome }}">
+    <label>Email:</label>
+    <input type="email" name="email" required value="{{ email }}">
 
     <label>Senha:</label>
     <input type="password" name="senha" required value="{{ senha }}">
@@ -37,4 +37,5 @@
         {{ erro }}
     </p>
 {% endif %}
+
 {% endblock %}

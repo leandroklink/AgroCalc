@@ -20,7 +20,8 @@ database.criar_banco()
 # página de custos
 @app.route('/custos', methods=['GET', 'POST'])
 def custos():
-
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
     resultado = None
 
     if request.method == 'POST':
@@ -68,6 +69,8 @@ def custos():
 #deletar calculo da tela de custos
 @app.route('/deletar-calculo', methods=['POST'])
 def deletar_calculo():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
     id = int(request.form.get('id'))
     database.deletar_calculo(id)
     database.registrar_atividade(
@@ -81,6 +84,8 @@ def deletar_calculo():
 #alterar calculo tela de custos
 @app.route('/editar-calculo/<int:id>')
 def editar_calculo(id):
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
     calculo = database.buscar_calculo_por_id(id)
 
     return render_template(
@@ -91,6 +96,8 @@ def editar_calculo(id):
 #finalizar edição
 @app.route('/salvar-edicao', methods=['POST'])
 def salvar_edicao():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     id = int(request.form.get('id'))
 
@@ -115,6 +122,8 @@ def salvar_edicao():
 
 @app.route('/financiamento', methods=['GET', 'POST'])
 def financiamento():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     parcela = None
     total_pago = None
@@ -200,6 +209,8 @@ def financiamento():
 # Página fertilizantes
 @app.route('/fertilizante', methods = ['GET','POST'])
 def fertilizante():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     area = None
     dose = None
@@ -242,6 +253,8 @@ def fertilizante():
 # Página conversor
 @app.route("/conversor", methods = ['GET','POST'])
 def conversor():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     valor = None
     tipo = None
@@ -284,6 +297,8 @@ def conversor():
 #Rota de talhões
 @app.route("/talhoes", methods = ['GET','POST'])
 def talhoes():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     producao = None
     if request.method == 'POST':
@@ -332,6 +347,8 @@ def talhoes():
 #deletar calculo da tela de talhoes
 @app.route('/deletar-talhao', methods=['POST'])
 def deletar_talhao():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
     id = int(request.form.get('id'))
     database.deletar_talhao(id)
     database.registrar_atividade(
@@ -352,6 +369,8 @@ def editar_talhao(id):
 #finalizar edição
 @app.route('/salvar-edicao-talhao', methods=['POST'])
 def salvar_edicao_talhao():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     id = int(request.form.get('id'))
     nome = request.form.get("nome_talhao")
@@ -379,6 +398,8 @@ def salvar_edicao_talhao():
 #rotas do index
 @app.route('/')
 def index():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
 
     producao = database.producao_total()
 
@@ -402,6 +423,7 @@ def index():
 #cadastro e login de usuários
 @app.route('/cadastrar-usuario', methods=["GET","POST"])
 def cadastrar_usuarios():
+
 
     if request.method == 'POST':
 
@@ -441,7 +463,6 @@ def cadastrar_usuarios():
 #rota de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if request.method == "POST":
         email = request.form.get('email')
         senha = request.form.get('senha')
@@ -451,18 +472,18 @@ def login():
         if not usuario:
             return render_template(
                 'login.html',
-                erro="Usuário não encontrado"
+                erro="Usuário ou senha incorretos."
             )
         if not check_password_hash(usuario[3],senha):
             return render_template(
-                'login',
-                erro='Senha Incorreta.')
+                'login.html',
+                erro='Usuário ou senha incorretos.')
         
         session["usuario_id"] = usuario[0]
         session["usuario_nome"] = usuario[1]
         
         flash('Login Realizado com sucesso!')
-        return redirect(url_for(index))
+        return redirect(url_for('index'))
     return render_template('login.html')
 
 #rota para sair de usuário
