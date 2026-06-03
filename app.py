@@ -12,7 +12,7 @@ from werkzeug.security import generate_password_hash #criptografia de senha
 import database
 
 app = Flask(__name__) #criando aplicação Flask
-app.secret_key = '123456'
+app.secret_key = 'agrocontrol123456'
 database.criar_banco()
 
 
@@ -281,8 +281,6 @@ def conversor():
 
 
 
-
-
 #Rota de talhões
 @app.route("/talhoes", methods = ['GET','POST'])
 def talhoes():
@@ -453,9 +451,16 @@ def login():
                 'login.html',
                 erro="Usuário não encontrado"
             )
+        if not check_password_hash(usuario[3],senha):
+            return render_template(
+                'login',
+                erro='Senha Incorreta.')
+        session["usuario_id"] = usuario[0]
+        session["usuario_nome"] = usuario[1]
         
-
-
+        flash('Login Realizado com sucesso!')
+        return redirect(url_for(index))
+    return render_template('login.html')
 
 # Executa o servidor
 if __name__ == "__main__":

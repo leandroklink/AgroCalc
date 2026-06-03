@@ -301,7 +301,7 @@ def custo_operacional():
     """)
     total = cursor.fetchone()[0]
     conexao.close()
-    return total
+    return total or 0
 
 
 #soma da quantidade de talhoes
