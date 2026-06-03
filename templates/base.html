@@ -70,14 +70,15 @@
                 </div>
 
                 <div>
-                    <strong>Leandro</strong>
-                    <p>Administrador</p>
+                    <strong>{{ session.get('usuario_nome') }}</strong>
+                    <p>Usuário</p>
                 </div>
                     <button id="tema-btn"class = "tema-btn">
                         🌙
                     </button>
+                    
             </div>
-
+            <a href="/logout">Sair</a>
         </div>
 
     </header>

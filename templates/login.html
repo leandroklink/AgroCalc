@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Cadastrar Usuário
+    login
 {% endblock %}
 
 {% block content %}
 
-<h1>Cadastrar Usuário</h1>
+<h1>Login</h1>
 
 <form action="/login" method="POST">
 
@@ -22,7 +22,19 @@
 
 </form>
 
-<a class="btn-voltar" href="/">
-    ← Voltar
-</a>
+<div class='opcoes'>
+    <a class="btn-voltar" href="/cadastrar-usuario">
+        Cadastrar
+    </a>
+
+    <a class="btn-voltar" href="/">
+        ← Voltar
+    </a>
+</div>
+
+{% if erro %}
+    <p class="erro">
+        {{ erro }}
+    </p>
+{% endif %}
 {% endblock %}

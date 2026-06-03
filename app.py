@@ -437,6 +437,8 @@ def cadastrar_usuarios():
         'cadastro.html',
     ) 
 
+
+#rota de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -455,12 +457,23 @@ def login():
             return render_template(
                 'login',
                 erro='Senha Incorreta.')
+        
         session["usuario_id"] = usuario[0]
         session["usuario_nome"] = usuario[1]
         
         flash('Login Realizado com sucesso!')
         return redirect(url_for(index))
     return render_template('login.html')
+
+#rota para sair de usuário
+@app.route('/logout')
+def logout():
+
+    session.clear()
+
+    flash('Você saiu do sistema.')
+
+    return redirect(url_for('login'))
 
 # Executa o servidor
 if __name__ == "__main__":

@@ -482,6 +482,15 @@ button {
     transform: translateY(-2px);
 }
 
+.opcoes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.opcoes a{
+    margin: 7px;
+}
 
 table {
     width: 100%;
