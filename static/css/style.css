@@ -24,8 +24,8 @@ body {
 
 .topbar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: right;
+    align-items:center;
 
     background: white;
     padding: 1rem 2rem;
@@ -48,7 +48,7 @@ body {
 
 .topbar-right {
     display: flex;
-    align-items: center;
+    align-items:center;
     gap: 1.5rem;
 }
 

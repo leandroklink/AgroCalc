@@ -21,7 +21,7 @@
 
     <aside class="sidebar">
         <h2>🌱 AgroControl</h2>
-
+    {% if session.get('usuario_id') %}
         <nav>
 
             <a href="/" class="active">
@@ -49,23 +49,20 @@
             </a>
 
         </nav>
+            {%endif%}
     </aside>
 
     <main class="content">
+        {% if session.get('usuario_id') %}
         <header class="topbar">
 
-        <div class="search-box">
-            <input
-                type="text"
-                placeholder="Pesquisar módulo..."
-            >
-        </div>
+
 
         <div class="topbar-right">
 
             <div class="user-profile">
                 <div class="avatar">
-                    LK
+                    {{ session.get('usuario_nome')[0].upper() }}
                 </div>
 
                 <div>
@@ -79,6 +76,7 @@
             </div>
             <a href="/logout">Sair</a>
         </div>
+    {%endif%}
 
     </header>
         {% block content %}

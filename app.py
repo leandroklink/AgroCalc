@@ -482,7 +482,7 @@ def login():
         session["usuario_id"] = usuario[0]
         session["usuario_nome"] = usuario[1]
         
-        flash('Login Realizado com sucesso!')
+
         return redirect(url_for('index'))
     return render_template('login.html')
 
@@ -491,8 +491,6 @@ def login():
 def logout():
 
     session.clear()
-
-    flash('Você saiu do sistema.')
 
     return redirect(url_for('login'))
 
