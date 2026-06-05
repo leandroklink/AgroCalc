@@ -62,7 +62,7 @@
 
     {% endif %}
 
-</div>
+
     {% with mensagens = get_flashed_messages() %}
         {% if mensagens %}
             {% for mensagem in mensagens %}
@@ -119,13 +119,13 @@
 
 {% else %}
 
-<p>Nenhum cálculo encontrado.</p>
+<p><br>Nenhum cálculo encontrado.</p>
 
 {% endif %}
-</div>
+
 
 <a class="btn-voltar" href="/">
     ← Voltar ao Dashboard
 </a>
-
+</div>
 {% endblock %}
