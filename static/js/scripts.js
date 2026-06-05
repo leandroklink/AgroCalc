@@ -25,3 +25,11 @@ botaoTema.addEventListener('click', () => {
 
 });
 
+
+//configuração de barra lateral para dispositivos móveis
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.querySelector('.sidebar');
+
+menuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('ativo');
+});

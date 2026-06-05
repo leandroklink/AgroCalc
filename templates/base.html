@@ -54,11 +54,16 @@
 
     <main class="content">
         {% if session.get('usuario_id') %}
+
         <header class="topbar">
 
 
 
+
         <div class="topbar-right">
+            <button class= "menu-btn" id="menu-btn">
+                ☰
+            </button>
 
             <div class="user-profile">
                 <div class="avatar">
@@ -74,7 +79,7 @@
                     </button>
                     
             </div>
-            <a href="/logout">Sair</a>
+            <a href="/logout" class="btn-sair">Sair</a>
         </div>
     {%endif%}
 
@@ -86,4 +91,3 @@
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
-

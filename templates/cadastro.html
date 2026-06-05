@@ -7,26 +7,27 @@
 {% block content %}
 
 <h1>Cadastrar Usuário</h1>
+<div class='containerUser'>
+    <form action="/cadastrar-usuario" method="POST" class="Formuser">
 
-<form action="/cadastrar-usuario" method="POST">
+        <label>Nome:</label>
+        <input type="text" name="nome" required value="{{ nome }}">
 
-    <label>Nome:</label>
-    <input type="text" name="nome" required value="{{ nome }}">
+        <label>Email:</label>
+        <input type="email" name="email" required value="{{ email }}">
 
-    <label>Email:</label>
-    <input type="email" name="email" required value="{{ email }}">
+        <label>Senha:</label>
+        <input type="password" name="senha" required value="{{ senha }}">
 
-    <label>Senha:</label>
-    <input type="password" name="senha" required value="{{ senha }}">
+        <label>Confirmar senha:</label>
+        <input type="password" name="senhaConfirm" required value="{{ senhaConfirm }}">
 
-    <label>Confirmar senha:</label>
-    <input type="password" name="senhaConfirm" required value="{{ senhaConfirm }}">
+        <button type="submit" class='submit'>
+            Criar Usuário
+        </button>
+    </form>
+</div>
 
-    <button type="submit" class='submit'>
-        Criar Usuário
-    </button>
-
-</form>
 <div class='opcoes'>
     <a class="btn-voltar" href="/login">
         Entrar
@@ -35,4 +36,11 @@
         ← Voltar
     </a>
 </div>
+
+{% if erro %}
+    <p class="erro">
+        {{ erro }}
+    </p>
+{% endif %}
+
 {% endblock %}

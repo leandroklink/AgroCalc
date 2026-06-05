@@ -360,7 +360,7 @@ def buscar_atividades():
         SELECT descricao
         FROM atividades
         ORDER BY id DESC
-        LIMIT 10
+        LIMIT 5
     """)
 
     atividades = cursor.fetchall()

@@ -7,21 +7,21 @@
 {% block content %}
 
 <h1>Login</h1>
+<div class='container'>
+    <form action="/login" method="POST">
 
-<form action="/login" method="POST">
+        <label>Email:</label>
+        <input type="email" name="email" required value="{{ email }}">
 
-    <label>Email:</label>
-    <input type="email" name="email" required value="{{ email }}">
+        <label>Senha:</label>
+        <input type="password" name="senha" required value="{{ senha }}">
 
-    <label>Senha:</label>
-    <input type="password" name="senha" required value="{{ senha }}">
+        <button type="submit" class='submit'>
+            Entrar
+        </button>
 
-    <button type="submit" class='submit'>
-        Entrar
-    </button>
-
-</form>
-
+    </form>
+</div>
 <div class='opcoes'>
     <a class="btn-voltar" href="/cadastrar-usuario">
         Cadastrar
