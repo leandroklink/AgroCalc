@@ -6,6 +6,7 @@ Dashboard
 
 {% block content %}
 
+
 <section class="dashboard-header">
 
     <div class='titulo'>
@@ -54,16 +55,11 @@ Dashboard
 
         <h2>📊 Produção da Semana</h2>
 
-        <div class="fake-chart">
-
-            <div class="bar" style="height: 70%;"></div>
-            <div class="bar" style="height: 45%;"></div>
-            <div class="bar" style="height: 90%;"></div>
-            <div class="bar" style="height: 60%;"></div>
-            <div class="bar" style="height: 80%;"></div>
-
-        </div>
-
+        <canvas id="graficoTalhoes"></canvas>
+        <script>
+            const nomes = {{ nomes|tojson }};
+            const producoes = {{ producoes|tojson }};
+        </script>
     </div>
 
     <div class="panel">

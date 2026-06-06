@@ -408,3 +408,19 @@ def buscar_usuario_por_email(email):
 
     return usuario
 
+
+
+def dados_grafico_talhoes():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT nome, producao
+        FROM talhoes
+        ORDER BY id
+    """)
+
+    dados = cursor.fetchall()
+
+    conexao.close()
+    return dados

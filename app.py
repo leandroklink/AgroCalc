@@ -411,13 +411,23 @@ def index():
 
     atividades = database.buscar_atividades()
 
+    dados_talhoes = database.dados_grafico_talhoes()
+    nomes = []
+    producoes = []
+    for talhao in dados_talhoes:
+        nomes.append(talhao[0])
+        producoes.append(talhao[1])
+
+
     return render_template(
         'index.html',
         producao=producao,
         custo=custo,
         talhoes=talhoes,
         area=area,
-        atividades=atividades
+        atividades=atividades,
+        nomes=nomes,
+        producoes=producoes
     )
 
 #cadastro e login de usuários
@@ -458,6 +468,7 @@ def cadastrar_usuarios():
     return render_template(
         'cadastro.html',
     ) 
+
 
 
 #rota de login

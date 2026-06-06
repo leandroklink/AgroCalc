@@ -33,3 +33,23 @@ const sidebar = document.querySelector('.sidebar');
 menuBtn.addEventListener('click', () => {
     sidebar.classList.toggle('ativo');
 });
+
+//script para grafico
+const canvas = document.getElementById('graficoTalhoes');
+
+if (canvas) {
+
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: nomes,
+            datasets: [{
+                label: 'Produção (sacas)',
+                data: producoes
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}

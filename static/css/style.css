@@ -20,6 +20,11 @@ body {
     background: #eef1f5;
 }
 
+.AgroControl{
+    color:#155724;
+    font-size:larger;
+    padding-top: 15px;
+}
 
 
 
@@ -78,6 +83,7 @@ body {
     color: white;
     padding: 2rem;
     position: fixed;
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -102,10 +108,7 @@ body {
     font-weight: 500;
 }
 
-.sidebar a.active {
-    background: var(--verde-primario);
-    color: white;
-}
+
 
 
 
@@ -228,6 +231,7 @@ body {
     padding: 2rem;
     border-radius: 18px;
     box-shadow: var(--sombra);
+    width: 100%;
 }
 
 .panel h2 {
@@ -551,6 +555,10 @@ body.dark-mode .menu-btn{
 
 }
 
+.panel canvas {
+    height: 300px !important;
+}
+
 
 /*======= RESPONSIVIDADE ======*/
 
@@ -615,8 +623,7 @@ body.dark-mode .menu-btn{
         gap: 1rem;
     }
 
-    .cards, .dashboard-grid, .panel {
-
+    .cards{
         grid-template-columns: repeat(2, 1fr);
         padding: 1rem;
 
@@ -625,6 +632,11 @@ body.dark-mode .menu-btn{
 
     .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .panel canvas {
+        max-width: 100%;
+        height: 250px !important;
     }
 
 
