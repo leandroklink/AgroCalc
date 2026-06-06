@@ -7,12 +7,14 @@ from flask import (
     flash,
     session
 )
+
+import os
 from werkzeug.security import check_password_hash #criptografia de senha
 from werkzeug.security import generate_password_hash #criptografia de senha
 import database
 
 app = Flask(__name__) #criando aplicação Flask
-app.secret_key = 'agrocontrol123456'
+app.secret_key = os.environ.get("SECRET_KEY")
 database.criar_banco()
 
 
