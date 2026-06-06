@@ -30,6 +30,3 @@ dist/
 # Matplotlib cache
 .matplotlib/
 
-
-#banco de dados
-banco.db
