@@ -230,7 +230,7 @@ def fertilizante():
             totalTol = total / 1000
 
             database.registrar_atividade(
-                'Financiamento calculado')
+                'Fertilizante calculado')
             
             return render_template(
                 'fertilizante.html',
@@ -448,7 +448,13 @@ def cadastrar_usuarios():
             return render_template(
                 'cadastro.html',
                 erro='Preencha todos os campos.')
-        
+        usuario = database.buscar_usuario_por_email(email)
+
+        if usuario:
+            return render_template(
+                'login.html',
+                erro="E-mail já cadastrado no sistema."
+            )
         
         if (senha == senhaConfirm):
             senha_hash = generate_password_hash(senha)
