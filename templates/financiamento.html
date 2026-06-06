@@ -98,29 +98,29 @@
     {% endwith %}
 
 {% if amortizacao %}
+<div class="table-responsive">
+    <table>
 
-<table>
+        <tr>
+            <th>Parcela</th>
+            <th>Juros</th>
+            <th>Amortização</th>
+            <th>Saldo</th>
+        </tr>
 
-    <tr>
-        <th>Parcela</th>
-        <th>Juros</th>
-        <th>Amortização</th>
-        <th>Saldo</th>
-    </tr>
+        {% for linha in amortizacao %}
 
-    {% for linha in amortizacao %}
+        <tr>
+            <td>{{ linha[0] }}</td>
+            <td>R$ {{ "%.2f"|format(linha[1]) }}</td>
+            <td>R$ {{ "%.2f"|format(linha[2]) }}</td>
+            <td>R$ {{ "%.2f"|format(linha[3]) }}</td>
+        </tr>
 
-    <tr>
-        <td>{{ linha[0] }}</td>
-        <td>R$ {{ "%.2f"|format(linha[1]) }}</td>
-        <td>R$ {{ "%.2f"|format(linha[2]) }}</td>
-        <td>R$ {{ "%.2f"|format(linha[3]) }}</td>
-    </tr>
+        {% endfor %}
 
-    {% endfor %}
-
-</table>
-
+    </table>
+</div>
 {% endif %}
 
 <a class="btn-voltar" href="/">
