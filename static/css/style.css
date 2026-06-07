@@ -552,6 +552,7 @@ body.dark-mode .menu-btn{
     background-color:white;
     display: none;
     color: black;
+    font-size: large;
 
 }
 
@@ -680,6 +681,9 @@ body.dark-mode .menu-btn{
 
     th,td {
         padding: 6px;
+    }
+    .btn-sair{
+        padding: 8px 4px;
     }
 
 }
