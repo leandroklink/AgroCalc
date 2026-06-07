@@ -683,7 +683,11 @@ body.dark-mode .menu-btn{
         padding: 6px;
     }
     .btn-sair{
-        padding: 8px 4px;
+        padding: 8px 8px;
+    }
+    .topbar-right {
+
+        gap: 1.2rem;
     }
 
 }
