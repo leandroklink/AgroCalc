@@ -11,10 +11,10 @@ from flask import (
 import os
 from werkzeug.security import check_password_hash #criptografia de senha
 from werkzeug.security import generate_password_hash #criptografia de senha
-import database
+import database #importacao de API de banco de dados
 
 app = Flask(__name__) #criando aplicação Flask
-app.secret_key = os.environ.get("SECRET_KEY")
+app.secret_key = os.environ.get("SECRET_KEY") #definindo chave secreta de criptografia configurada no render
 database.criar_banco()
 
 
@@ -26,7 +26,7 @@ def custos():
         return redirect(url_for('login'))
     resultado = None
 
-    if request.method == 'POST':
+    if request.method == 'POST': # define os metodos como GET ou POST, se for get apenas apresenta, se for post importa os dados e calcula
         try:
             cf_input = request.form.get("custo_fixo")
             cv_input = request.form.get("custo_variavel")
@@ -43,7 +43,7 @@ def custos():
                 cv,
                 qd,
                 resultado   
-            )
+            ) #salva os dados na database
             database.registrar_atividade(
                 f'Calculo realizado'
                 )
@@ -69,7 +69,7 @@ def custos():
     ) 
 
 #deletar calculo da tela de custos
-@app.route('/deletar-calculo', methods=['POST'])
+@app.route('/deletar-calculo', methods=['POST']) #atraves de metodo post realiza o delete do banco do calculo buscado
 def deletar_calculo():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
@@ -84,7 +84,7 @@ def deletar_calculo():
 
 
 #alterar calculo tela de custos
-@app.route('/editar-calculo/<int:id>')
+@app.route('/editar-calculo/<int:id>') #leva o usuario a tela de edição de calculos
 def editar_calculo(id):
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
@@ -122,7 +122,7 @@ def salvar_edicao():
     return redirect(url_for('custos'))
 
 
-@app.route('/financiamento', methods=['GET', 'POST'])
+@app.route('/financiamento', methods=['GET', 'POST']) # define os metodos como GET ou POST, se for get apenas apresenta, se for post importa os dados e calcula o financiamento
 def financiamento():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
@@ -146,9 +146,9 @@ def financiamento():
                 return render_template('financiamento.html',
                     erro='Número de parcelas muito alto.')
 
-            taxa = taxa / 100
+            taxa = taxa / 100 #calculo da taxa
 
-            potencia = (1 + taxa) ** parcelas
+            potencia = (1 + taxa) ** parcelas #calcula as parcelas
 
             numerador = taxa * potencia
             denominador = potencia - 1
@@ -189,7 +189,8 @@ def financiamento():
                 juros_total=juros_total,
                 amortizacao=amortizacao
             )
-        except ValueError:
+        #abaixo tratamento de erros de valor ou overflow
+        except ValueError: 
 
             return render_template(
                 'financiamento.html',
@@ -226,7 +227,7 @@ def fertilizante():
             area = float(area_input)
             dose = float(dose_input)
 
-            total = area * dose
+            total = area * dose #calculos do fertilizante
             totalTol = total / 1000
 
             database.registrar_atividade(
@@ -267,7 +268,7 @@ def conversor():
             valor_input = request.form.get("valor")
             tipo = request.form.get("tipo")
             valor = float(valor_input)
-
+            #abaixo calculos de conversao para determinada escolha non post
             if tipo == "kg_ton":
                 resultado = valor / 1000
             elif tipo == "ton_kg":
@@ -310,20 +311,21 @@ def talhoes():
             produtividade_input = request.form.get("produtividade")
 
 
-            area = float(area_input)
+            area = float(area_input) #em todos os posts existem essas conversões porque quando os dados são importados da pagina vem como string, e são convertidos para float ou int só depois, porque se ocorre
+                                     #algum erro ele apenas retorna os valores em string novamente, essa conversão é usada para os calculos ou registros no banco de dados
             produtividade = float(produtividade_input)
 
-            producao = area * produtividade
+            producao = area * produtividade # calculo de producao
 
             database.salvar_talhao(
                 nome,
                 area,
                 produtividade,
                 producao   
-            )
+            ) #salvando talhao na database
             database.registrar_atividade(
                 'Financiamento calculado'
-            )
+            )#esse regfistrar atividadade registra nessa tabelas as ações feitas no momento e exibe as 5 ultimas no index.html no dashboard
 
             flash(f'Talhão {nome} cadastrado! Produção estimada: {producao:.2f} sacas.')
             return redirect(url_for('talhoes'))

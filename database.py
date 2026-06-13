@@ -5,6 +5,8 @@ def conectar():
     conexao = sqlite3.connect('banco.db')
     return conexao
 
+# nesse arquivo ocorre toda a interação com o banco de dados SQLite 
+
 #parte de custos
 def criar_banco():
     conexao = conectar()
@@ -53,7 +55,7 @@ def criar_banco():
 
 
 
-
+#salvar calculo no banco de dados
 def salvar_calculo(custo_fixo, custo_variavel, quantidade, resultado):
     conexao = conectar()
     cursor = conexao.cursor()
@@ -77,6 +79,7 @@ def salvar_calculo(custo_fixo, custo_variavel, quantidade, resultado):
     conexao.commit()
     conexao.close()
 
+#buscar calculos 
 def buscar_calculos():
     conexao = conectar()
     cursor = conexao.cursor()
